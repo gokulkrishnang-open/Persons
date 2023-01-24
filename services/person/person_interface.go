@@ -1,13 +1,14 @@
 package person
 
 import (
-	"github.com/gin-gonic/gin"
+	// "github.com/gin-gonic/gin"
+	"persons/model"
 )
 
 type PersonsInterface interface {
-	FindEveryone(*gin.Context)
-	FindPerson(string, *gin.Context)
-	CreatePerson(*gin.Context)
-	ChangePerson(string, *gin.Context)
-	DeletePerson(string)
+	FindEveryone() ([]model.PersonResponse, error)
+	FindPerson(string) (model.PersonResponse, error)
+	CreatePerson(model.Persons) error
+	ChangePerson(string, model.Persons) error
+	DeletePerson(string) error
 }
