@@ -19,7 +19,6 @@ var Db *DBConfig
 func loadDBConfig() {
 	Db = &DBConfig{}
 	err := envconfig.Process("db", Db)
-	fmt.Println(Db)
 	if err != nil {
 		fmt.Println(err.Error())
 	}

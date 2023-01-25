@@ -15,4 +15,5 @@ func LoadConfigs() {
 
 	loadDBConfig()
 	loadAuthConfig()
+	loadAppConfig()
 }

@@ -18,7 +18,7 @@ func StartApplication() {
 	db.Connection()
 	RegisterMiddlewares()
 	mapUrls()
-	router.Run()
+	router.Run(":" + config.AppConfig.Port)
 }
 
 func Init() {
