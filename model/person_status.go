@@ -1,8 +1,8 @@
 package model
 
 type PersonRequest struct {
-	UserName string `json:"username"`
-	Password string `json:"password"`
+	UserName string `json:"DEFAULT_USERNAME"`
+	Password string `json:"DEFAULT_PASSWORD"`
 }
 
 type PersonResponse struct {

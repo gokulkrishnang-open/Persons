@@ -2,8 +2,8 @@ package middleware
 
 import (
 	"encoding/base64"
-	"fmt"
 	"github.com/gin-gonic/gin"
+	"persons/config"
 	"persons/model"
 	"strings"
 )
@@ -14,11 +14,10 @@ func AuthenticateUser(ctx *gin.Context) {
 	credentials := strings.SplitN(string(b), ":", 2)
 	Person := model.PersonRequest{credentials[0], credentials[1]}
 
-	if Person.UserName == "admin" && Person.Password == "password" {
+	if Person == *config.AuthorizedPerson {
 		ctx.Next()
 	} else {
-		ctx.JSON(401, gin.H{"error": "Unauthorized"})
+		ctx.JSON(403, gin.H{"error": "Unauthorized"})
 		ctx.Abort()
 	}
-	fmt.Println("user authenticated")
 }
