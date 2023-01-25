@@ -1,8 +1,6 @@
 package person
 
 import (
-	// "fmt"
-	// "github.com/gin-gonic/gin"
 	"persons/model"
 	"persons/repositories/persons_gorm"
 )
@@ -20,8 +18,8 @@ func (p PersonsImplementation) FindEveryone() ([]model.PersonResponse, error) {
 }
 
 func (p PersonsImplementation) FindPerson(user_name string) (model.PersonResponse, error) {
-	PersonReq := model.PersonRequest{user_name}
-	someone, err := PersonGorm.FetchPersonFromdb(PersonReq)
+	// PersonReq := model.PersonRequest{user_name, ""}
+	someone, err := PersonGorm.FetchPersonFromdb(user_name)
 	if err != nil {
 		return someone, err
 	}
@@ -29,8 +27,6 @@ func (p PersonsImplementation) FindPerson(user_name string) (model.PersonRespons
 }
 
 func (p PersonsImplementation) CreatePerson(person model.Persons) error {
-	// person := model.Persons{}
-	// ctx.BindJSON(&person)
 	err := PersonGorm.InsertPersonIntodb(person)
 	if err != nil {
 		return err
@@ -39,10 +35,8 @@ func (p PersonsImplementation) CreatePerson(person model.Persons) error {
 }
 
 func (p PersonsImplementation) ChangePerson(user_name string, person model.Persons) error {
-	PersonReq := model.PersonRequest{user_name}
-	// person := model.Persons{}
-	// ctx.BindJSON(&person)
-	err := PersonGorm.UpdatePersonInDB(PersonReq, person)
+	// PersonReq := model.PersonRequest{user_name, ""}
+	err := PersonGorm.UpdatePersonInDB(user_name, person)
 	if err != nil {
 		return err
 	}
@@ -50,8 +44,8 @@ func (p PersonsImplementation) ChangePerson(user_name string, person model.Perso
 }
 
 func (p PersonsImplementation) DeletePerson(user_name string) error {
-	PersonReq := model.PersonRequest{user_name}
-	err := PersonGorm.DeletePersonFromDB(PersonReq)
+	// PersonReq := model.PersonRequest{user_name, ""}
+	err := PersonGorm.DeletePersonFromDB(user_name)
 	if err != nil {
 		return err
 	}

@@ -19,8 +19,7 @@ func (p PersonGormImp) FetchEveryoneFromDB() ([]model.PersonResponse, error) {
 	return AllPersonToReturn, err
 }
 
-func (p PersonGormImp) FetchPersonFromdb(Person_to_find model.PersonRequest) (model.PersonResponse, error) {
-	user_name := Person_to_find.UserName
+func (p PersonGormImp) FetchPersonFromdb(user_name string) (model.PersonResponse, error) {
 	SomeOne := model.Persons{}
 	SomeOneToReturn := model.PersonResponse{}
 	err := db.DB.Session(&gorm.Session{}).
@@ -36,8 +35,7 @@ func (p PersonGormImp) InsertPersonIntodb(person model.Persons) error {
 	return err
 }
 
-func (p PersonGormImp) UpdatePersonInDB(Person_to_change model.PersonRequest, person model.Persons) error {
-	user_name := Person_to_change.UserName
+func (p PersonGormImp) UpdatePersonInDB(user_name string, person model.Persons) error {
 	SomeOne := model.Persons{}
 	err := db.DB.Session(&gorm.Session{}).
 		Model(&SomeOne).
@@ -46,8 +44,7 @@ func (p PersonGormImp) UpdatePersonInDB(Person_to_change model.PersonRequest, pe
 	return err
 }
 
-func (p PersonGormImp) DeletePersonFromDB(Person_to_delete model.PersonRequest) error {
-	user_name := Person_to_delete.UserName
+func (p PersonGormImp) DeletePersonFromDB(user_name string) error {
 	person := model.Persons{}
 	err := db.DB.Where("user_name = ?", user_name).
 		Delete(&person).Error

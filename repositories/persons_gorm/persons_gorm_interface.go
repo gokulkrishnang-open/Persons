@@ -6,8 +6,8 @@ import (
 
 type PersonGormInt interface {
 	FetchEveryoneFromDB() ([]model.PersonResponse, error)
-	FetchPersonFromdb(model.PersonRequest) (model.PersonResponse, error)
+	FetchPersonFromdb(string) (model.PersonResponse, error)
 	InsertPersonIntodb(model.Persons) error
-	UpdatePersonInDB(model.PersonRequest, model.Persons) error
-	DeletePersonFromDB(model.PersonRequest) error
+	UpdatePersonInDB(string, model.Persons) error
+	DeletePersonFromDB(string) error
 }
