@@ -31,3 +31,14 @@ func CreateToken(person model.PersonAuthReq) (string, error) {
 	}
 	return token, nil
 }
+
+func ValidateJwtAuthToken(token string) error {
+	tkn, err := jwt.ParseWithClaims(token, &Claims{}, func(token *jwt.Token) (interface{}, error) {
+		return []byte("secretkey_dhbfkjhbf3o41nd"), nil
+	})
+	if err != nil {
+		return err
+	}
+	fmt.Println(tkn)
+	return nil
+}

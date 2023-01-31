@@ -6,10 +6,10 @@ import (
 )
 
 func mapUrls() {
-	router.GET("/persons", controller.FindEveryoneHandler)
-	router.GET("/persons/:username", controller.FindPersonHandler)
+	router.GET("/persons", middleware.AuthorizeUser, controller.FindEveryoneHandler)
+	router.GET("/persons/:username", middleware.AuthorizeUser, controller.FindPersonHandler)
 	router.POST("/persons/login", controller.LoginHandler)
-	router.POST("/persons", controller.CreatePersonHandler)
-	router.PUT("/persons/:username", controller.ChangePersonHandler)
-	router.DELETE("/persons/:username", controller.DeletePersonHandler)
+	router.POST("/persons", middleware.AuthorizeUser, controller.CreatePersonHandler)
+	router.PUT("/persons/:username", middleware.AuthorizeUser, controller.ChangePersonHandler)
+	router.DELETE("/persons/:username", middleware.AuthorizeUser, controller.DeletePersonHandler)
 }

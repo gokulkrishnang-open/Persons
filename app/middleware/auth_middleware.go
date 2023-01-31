@@ -32,3 +32,13 @@ import (
 // 		ctx.Abort()
 // 	}
 // }
+
+func AuthorizeUser(ctx *gin.Context) {
+	auth_header := ctx.GetHeader("Authorization")
+	token := strings.TrimPrefix(auth_header, "Bearer ")
+	err := jwt.VerifyJwtAuthToken(token)
+	if err != nil {
+		ctx.JSON(403, gin.H{"error": "Invalid Token"})
+	}
+	fmt.Println(token)
+}
