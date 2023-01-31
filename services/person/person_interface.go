@@ -11,4 +11,5 @@ type PersonsInterface interface {
 	CreatePerson(model.Persons) error
 	ChangePerson(string, model.Persons) error
 	DeletePerson(string) error
+	FetchPersonCreds(string) (model.PersonAuthReq, error)
 }

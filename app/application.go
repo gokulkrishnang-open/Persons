@@ -3,7 +3,7 @@ package app
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"persons/app/middleware"
+	// "persons/app/middleware"
 	"persons/config"
 	"persons/database"
 )
@@ -16,7 +16,7 @@ func StartApplication() {
 	Init()
 	router = gin.Default()
 	db.Connection()
-	RegisterMiddlewares()
+	// RegisterMiddlewares()
 	mapUrls()
 	router.Run(":" + config.AppConfig.Port)
 }
@@ -25,6 +25,6 @@ func Init() {
 	config.LoadConfigs()
 }
 
-func RegisterMiddlewares() {
-	router.Use(middleware.AuthenticateUser)
-}
+// func RegisterMiddlewares() {
+// 	router.Use(middleware.AuthenticateUser)
+// }

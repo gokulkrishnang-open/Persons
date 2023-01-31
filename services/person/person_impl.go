@@ -20,7 +20,7 @@ func (p PersonsImplementation) FindEveryone() ([]model.PersonResponse, error) {
 }
 
 func (p PersonsImplementation) FindPerson(user_name string) (model.PersonResponse, error) {
-	someone, err := PersonGorm.FetchPersonFromdb(user_name)
+	someone, err := PersonGorm.FetchPersonFromDB(user_name)
 	someoneresp := transformer.GetPerson(someone)
 	if err != nil {
 		return someoneresp, err
@@ -29,7 +29,7 @@ func (p PersonsImplementation) FindPerson(user_name string) (model.PersonRespons
 }
 
 func (p PersonsImplementation) CreatePerson(person model.Persons) error {
-	err := PersonGorm.InsertPersonIntodb(person)
+	err := PersonGorm.InsertPersonIntoDB(person)
 	if err != nil {
 		return err
 	}
@@ -50,4 +50,13 @@ func (p PersonsImplementation) DeletePerson(user_name string) error {
 		return err
 	}
 	return nil
+}
+
+func (p PersonsImplementation) FetchPersonCreds(user_name string) (model.PersonAuthReq, error) {
+	user, err := PersonGorm.FetchPersonFromDB(user_name)
+	userCreds := transformer.GetPersonAuthReq(user)
+	if err != nil {
+		return userCreds, err
+	}
+	return userCreds, nil
 }
