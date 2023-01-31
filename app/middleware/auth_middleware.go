@@ -17,7 +17,7 @@ func AuthenticateUser(ctx *gin.Context) {
 	if Person == *config.AuthorizedPerson {
 		ctx.Next()
 	} else {
-		ctx.JSON(403, gin.H{"error": "Unauthorized"})
+		ctx.JSON(401, gin.H{"error": "Unauthorized"})
 		ctx.Abort()
 	}
 }

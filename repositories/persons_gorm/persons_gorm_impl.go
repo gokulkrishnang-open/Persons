@@ -1,32 +1,30 @@
 package person
 
 import (
-	// "fmt"
-	"gorm.io/gorm"
 	"persons/database"
 	"persons/model"
+
+	"gorm.io/gorm"
 )
 
 type PersonGormImp struct{}
 
-func (p PersonGormImp) FetchEveryoneFromDB() ([]model.PersonResponse, error) {
+func (p PersonGormImp) FetchEveryoneFromDB() ([]model.Persons, error) {
 	AllPersons := []model.Persons{}
-	AllPersonToReturn := []model.PersonResponse{}
 	err := db.DB.Session(&gorm.Session{}).
 		Model(&AllPersons).
 		Where("deleted_at IS NULL").
-		Find(&AllPersonToReturn).Error
-	return AllPersonToReturn, err
+		Find(&AllPersons).Error
+	return AllPersons, err
 }
 
-func (p PersonGormImp) FetchPersonFromdb(user_name string) (model.PersonResponse, error) {
+func (p PersonGormImp) FetchPersonFromdb(user_name string) (model.Persons, error) {
 	SomeOne := model.Persons{}
-	SomeOneToReturn := model.PersonResponse{}
 	err := db.DB.Session(&gorm.Session{}).
 		Model(&SomeOne).
 		Where("user_name = ? and deleted_at IS NULL", user_name).
-		First(&SomeOneToReturn).Error
-	return SomeOneToReturn, err
+		First(&SomeOne).Error
+	return SomeOne, err
 }
 
 func (p PersonGormImp) InsertPersonIntodb(person model.Persons) error {

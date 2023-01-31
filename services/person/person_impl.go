@@ -3,6 +3,7 @@ package person
 import (
 	"persons/model"
 	"persons/repositories/persons_gorm"
+	transformer "persons/transformers"
 )
 
 type PersonsImplementation struct{}
@@ -11,18 +12,20 @@ var PersonGorm person.PersonGormInt = person.PersonGormImp{}
 
 func (p PersonsImplementation) FindEveryone() ([]model.PersonResponse, error) {
 	allpersons, err := PersonGorm.FetchEveryoneFromDB()
+	allpersonsresp := transformer.GetPeople(allpersons)
 	if err != nil {
-		return allpersons, err
+		return allpersonsresp, err
 	}
-	return allpersons, nil
+	return allpersonsresp, nil
 }
 
 func (p PersonsImplementation) FindPerson(user_name string) (model.PersonResponse, error) {
 	someone, err := PersonGorm.FetchPersonFromdb(user_name)
+	someoneresp := transformer.GetPerson(someone)
 	if err != nil {
-		return someone, err
+		return someoneresp, err
 	}
-	return someone, nil
+	return someoneresp, nil
 }
 
 func (p PersonsImplementation) CreatePerson(person model.Persons) error {
