@@ -2,7 +2,7 @@ package person
 
 import (
 	"persons/model"
-	"persons/repositories/persons_gorm"
+	person "persons/repositories/persons_gorm"
 	transformer "persons/transformers"
 )
 
@@ -10,34 +10,40 @@ type PersonsImplementation struct{}
 
 var PersonGorm person.PersonGormInt = person.PersonGormImp{}
 
-func (p PersonsImplementation) FindEveryone() ([]model.PersonResponse, error) {
-	allpersons, err := PersonGorm.FetchEveryoneFromDB()
-	allpersonsresp := transformer.GetPeople(allpersons)
-	if err != nil {
-		return allpersonsresp, err
+func (p PersonsImplementation) FindEveryone(pageNum string, limit string) ([]model.Persons, error) {
+	paginator := model.Pagination{
+		ResultsPerPage: limit,
+		Page:           pageNum,
 	}
-	return allpersonsresp, nil
+	allpersons, err := PersonGorm.FetchEveryoneFromDB(paginator)
+	// allpersonsresp := transformer.GetPeople(allpersons)
+	if err != nil {
+		return allpersons, err
+	}
+	return allpersons, nil
 }
 
-func (p PersonsImplementation) FindPerson(user_name string) (model.PersonResponse, error) {
+func (p PersonsImplementation) FindPerson(user_name string) (model.Persons, error) {
 	someone, err := PersonGorm.FetchPersonFromDB(user_name)
-	someoneresp := transformer.GetPerson(someone)
+	// someoneresp := transformer.GetPerson(someone)
 	if err != nil {
-		return someoneresp, err
+		return someone, err
 	}
-	return someoneresp, nil
+	return someone, nil
 }
 
-func (p PersonsImplementation) CreatePerson(person model.Persons) error {
-	err := PersonGorm.InsertPersonIntoDB(person)
+func (p PersonsImplementation) CreatePerson(person_req model.PersonRequest) error {
+	person_ := transformer.GetPersonEntity(person_req)
+	err := PersonGorm.InsertPersonIntoDB(person_)
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (p PersonsImplementation) ChangePerson(user_name string, person model.Persons) error {
-	err := PersonGorm.UpdatePersonInDB(user_name, person)
+func (p PersonsImplementation) ChangePerson(user_name string, person_req model.PersonRequest) error {
+	person_ := transformer.GetPersonEntity(person_req)
+	err := PersonGorm.UpdatePersonInDB(user_name, person_)
 	if err != nil {
 		return err
 	}

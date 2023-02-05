@@ -1,11 +1,9 @@
 package person
 
-import (
-	"persons/model"
-)
+import "persons/model"
 
 type PersonGormInt interface {
-	FetchEveryoneFromDB() ([]model.Persons, error)
+	FetchEveryoneFromDB(model.Pagination) ([]model.Persons, error)
 	FetchPersonFromDB(string) (model.Persons, error)
 	InsertPersonIntoDB(model.Persons) error
 	UpdatePersonInDB(string, model.Persons) error

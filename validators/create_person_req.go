@@ -3,9 +3,10 @@ package validator
 import (
 	"errors"
 	"fmt"
+	"persons/model"
+
 	"github.com/gin-gonic/gin"
 	"github.com/thedevsaddam/govalidator"
-	"persons/model"
 )
 
 func ValidatePersonRequest(ctx *gin.Context) (string, error) {
@@ -30,7 +31,7 @@ func ValidatePersonRequest(ctx *gin.Context) (string, error) {
 		err := map[string]interface{}{"error": e}
 		ctx.JSON(400, err)
 		ctx.Abort()
-		return reqbody.UserName, errors.New("Invaid request")
+		return reqbody.UserName, errors.New("Invalid Request")
 	}
 	return reqbody.UserName, nil
 
@@ -100,7 +101,8 @@ func ValidateUpdatePersonRequest(ctx *gin.Context) (model.PersonRequest, error) 
 	v := govalidator.New(opts)
 	e := v.ValidateStruct()
 	if len(e) > 0 {
-		ctx.JSON(400, gin.H{"error": e})
+		err := map[string]interface{}{"error": e}
+		ctx.JSON(400, err)
 		ctx.Abort()
 		return person, errors.New("Invalid request")
 	}

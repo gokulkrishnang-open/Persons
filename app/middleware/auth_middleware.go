@@ -1,12 +1,8 @@
 package middleware
 
 import (
-	// "encoding/base64"
 	"github.com/gin-gonic/gin"
 	"persons/app/middleware/jwt"
-	// "persons/model"
-	// "persons/services/person"
-	"fmt"
 	"strings"
 )
 
@@ -36,9 +32,10 @@ import (
 func AuthorizeUser(ctx *gin.Context) {
 	auth_header := ctx.GetHeader("Authorization")
 	token := strings.TrimPrefix(auth_header, "Bearer ")
-	err := jwt.VerifyJwtAuthToken(token)
+	err := jwt.ValidateJwtAuthToken(token)
 	if err != nil {
-		ctx.JSON(403, gin.H{"error": "Invalid Token"})
+		ctx.JSON(401, gin.H{"error": "Unauthorized"})
+		ctx.Abort()
 	}
-	fmt.Println(token)
+	ctx.Next()
 }
