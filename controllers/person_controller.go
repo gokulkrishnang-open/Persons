@@ -1,55 +1,76 @@
 package controller
 
 import (
-	"github.com/gin-gonic/gin"
-	"persons/model"
 	"persons/services/person"
+	transform "persons/transformers"
+	validator "persons/validators"
+
+	"github.com/gin-gonic/gin"
 )
 
 var Person person.PersonsInterface = person.PersonsImplementation{}
 
 func FindEveryoneHandler(ctx *gin.Context) {
-	resp, err := Person.FindEveryone()
+	page := ctx.DefaultQuery("page", "1")
+	limit := ctx.DefaultQuery("limit", "10")
+	resp, err := Person.FindEveryone(page, limit)
 	if err != nil {
-		ctx.JSON(500, gin.H{"error": err.Error()})
+		ctx.JSON(500, err)
 		return
 	}
-	ctx.JSON(200, resp)
+	people := transform.GetPeople(resp)
+	ctx.JSON(200, people)
 }
 
 func FindPersonHandler(ctx *gin.Context) {
-	user_name := ctx.Params.ByName("username")
-	resp, err := Person.FindPerson(user_name)
-	if err != nil {
-		ctx.JSON(500, gin.H{"error": err.Error()})
+	user_name, er := validator.ValidatePersonRequest(ctx)
+	if er != nil {
 		return
 	}
-	ctx.JSON(200, resp)
+	resp, err := Person.FindPerson(user_name)
+	if err != nil {
+		ctx.JSON(500, err)
+		return
+	}
+	p := transform.GetPerson(resp)
+	ctx.JSON(200, p)
 }
 
 func CreatePersonHandler(ctx *gin.Context) {
-	person := model.Persons{}
-	ctx.BindJSON(&person)
-	err := Person.CreatePerson(person)
+	person_req, err := validator.ValidateCreatePersonRequest(ctx)
 	if err != nil {
-		ctx.JSON(500, gin.H{"error": err.Error()})
+		return
+	}
+	err = Person.CreatePerson(person_req)
+	if err != nil {
+		ctx.JSON(500, err)
+		return
 	}
 }
 
 func ChangePersonHandler(ctx *gin.Context) {
-	user_name := ctx.Params.ByName("username")
-	person := model.Persons{}
-	ctx.BindJSON(&person)
-	err := Person.ChangePerson(user_name, person)
+	user_name, er := validator.ValidatePersonRequest(ctx)
+	if er != nil {
+		return
+	}
+	person_req, err := validator.ValidateUpdatePersonRequest(ctx)
 	if err != nil {
-		ctx.JSON(500, gin.H{"error": err.Error()})
+		return
+	}
+	err = Person.ChangePerson(user_name, person_req)
+	if err != nil {
+		ctx.JSON(400, err)
+		return
 	}
 }
 
 func DeletePersonHandler(ctx *gin.Context) {
-	user_name := ctx.Params.ByName("username")
+	user_name, er := validator.ValidatePersonRequest(ctx)
+	if er != nil {
+		return
+	}
 	err := Person.DeletePerson(user_name)
 	if err != nil {
-		ctx.JSON(500, gin.H{"error": err.Error()})
+		ctx.JSON(500, err)
 	}
 }

@@ -1,4 +1,7 @@
 vendor
 .vscode
+.env
 go.mod
 go.sum
+.DS_Store
+main

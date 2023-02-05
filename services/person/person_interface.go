@@ -6,9 +6,10 @@ import (
 )
 
 type PersonsInterface interface {
-	FindEveryone() ([]model.PersonResponse, error)
-	FindPerson(string) (model.PersonResponse, error)
-	CreatePerson(model.Persons) error
-	ChangePerson(string, model.Persons) error
+	FindEveryone(string, string) ([]model.Persons, error)
+	FindPerson(string) (model.Persons, error)
+	CreatePerson(model.PersonRequest) error
+	ChangePerson(string, model.PersonRequest) error
 	DeletePerson(string) error
+	FetchPersonCreds(string) (model.PersonAuthReq, error)
 }
