@@ -2,10 +2,12 @@ package app
 
 import (
 	"fmt"
+
 	"github.com/gin-gonic/gin"
+
 	// "persons/app/middleware"
 	"persons/config"
-	"persons/database"
+	db "persons/database"
 )
 
 var router *gin.Engine
