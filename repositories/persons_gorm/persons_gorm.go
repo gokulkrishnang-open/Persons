@@ -12,8 +12,8 @@ type PersonGormImp struct{}
 
 func (p PersonGormImp) FetchEveryoneFromDB(pag model.Pagination) ([]model.Persons, error) {
 	limit, _ := strconv.Atoi(pag.ResultsPerPage)
-	page_no, _ := strconv.Atoi(pag.Page)
-	offset := (page_no - 1) * limit
+	pageNoo, _ := strconv.Atoi(pag.Page)
+	offset := (pageNoo - 1) * limit
 
 	AllPersons := []model.Persons{}
 	err := db.DB.Session(&gorm.Session{}).

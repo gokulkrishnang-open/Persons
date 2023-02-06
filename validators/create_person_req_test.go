@@ -22,6 +22,10 @@ func TestValidatePersonRequest(t *testing.T) {
 	res, err := ValidatePersonRequest(c)
 	assert.NotEmpty(t, res)
 	assert.Empty(t, err)
+
+	c.Params = []gin.Param{gin.Param{Key: "username", Value: "user123#^@&#*"}}
+	res, err = ValidatePersonRequest(c)
+	assert.NotEmpty(t, err)
 }
 
 func TestValidateCreatePersonRequest(t *testing.T) {
@@ -43,6 +47,21 @@ func TestValidateCreatePersonRequest(t *testing.T) {
 	res, err := ValidateCreatePersonRequest(c)
 	assert.Empty(t, err)
 	assert.NotEmpty(t, res)
+
+	personFake := model.PersonRequest{
+		UserName: "username&@^$&^*@",
+		Password: "password",
+		Name:     "User name",
+		Email:    "username@gmail.com",
+		Phone:    1234567891,
+	}
+	personFakedata, _ := json.Marshal(&personFake)
+	c.Request = &http.Request{
+		Header: make(http.Header),
+		Body:   ioutil.NopCloser(bytes.NewBuffer(personFakedata)),
+	}
+	res, err = ValidateCreatePersonRequest(c)
+	assert.NotEmpty(t, err)
 }
 
 func TestValidateUpdatePersonRequest(t *testing.T) {
@@ -64,4 +83,19 @@ func TestValidateUpdatePersonRequest(t *testing.T) {
 	res, err := ValidateUpdatePersonRequest(c)
 	assert.Empty(t, err)
 	assert.NotEmpty(t, res)
+
+	personFake := model.PersonRequest{
+		UserName: "username&@^$&^*@",
+		Password: "password",
+		Name:     "User name",
+		Email:    "username@gmail.com",
+		Phone:    1234567891,
+	}
+	personFakedata, _ := json.Marshal(&personFake)
+	c.Request = &http.Request{
+		Header: make(http.Header),
+		Body:   ioutil.NopCloser(bytes.NewBuffer(personFakedata)),
+	}
+	res, err = ValidateCreatePersonRequest(c)
+	assert.NotEmpty(t, err)
 }

@@ -2,18 +2,19 @@ package controller
 
 import (
 	"encoding/base64"
-	"github.com/gin-gonic/gin"
 	"persons/app/middleware/jwt"
 	"persons/model"
 	"persons/services/person"
 	"strings"
+
+	"github.com/gin-gonic/gin"
 )
 
 var Person_ person.PersonsInterface = person.PersonsImplementation{}
 
 func LoginHandler(ctx *gin.Context) {
-	encoded_things := strings.SplitN(ctx.GetHeader("Authorization"), " ", 2)[1]
-	b, _ := base64.StdEncoding.DecodeString(encoded_things)
+	encodedThings := strings.SplitN(ctx.GetHeader("Authorization"), " ", 2)[1]
+	b, _ := base64.StdEncoding.DecodeString(encodedThings)
 	credentials := strings.SplitN(string(b), ":", 2)
 	Person := model.PersonAuthReq{credentials[0], credentials[1]}
 	ActualPerson, err := Person_.FetchPersonCreds(Person.UserName)

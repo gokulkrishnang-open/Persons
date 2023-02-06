@@ -16,50 +16,48 @@ func (p PersonsImplementation) FindEveryone(pageNum string, limit string) ([]mod
 		Page:           pageNum,
 	}
 	allpersons, err := PersonGorm.FetchEveryoneFromDB(paginator)
-	// allpersonsresp := transformer.GetPeople(allpersons)
 	if err != nil {
 		return allpersons, err
 	}
 	return allpersons, nil
 }
 
-func (p PersonsImplementation) FindPerson(user_name string) (model.Persons, error) {
-	someone, err := PersonGorm.FetchPersonFromDB(user_name)
-	// someoneresp := transformer.GetPerson(someone)
+func (p PersonsImplementation) FindPerson(userName string) (model.Persons, error) {
+	someone, err := PersonGorm.FetchPersonFromDB(userName)
 	if err != nil {
 		return someone, err
 	}
 	return someone, nil
 }
 
-func (p PersonsImplementation) CreatePerson(person_req model.PersonRequest) error {
-	person_ := transformer.GetPersonEntity(person_req)
-	err := PersonGorm.InsertPersonIntoDB(person_)
+func (p PersonsImplementation) CreatePerson(personReq model.PersonRequest) error {
+	personEntity := transformer.GetPersonEntity(personReq)
+	err := PersonGorm.InsertPersonIntoDB(personEntity)
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (p PersonsImplementation) ChangePerson(user_name string, person_req model.PersonRequest) error {
-	person_ := transformer.GetPersonEntity(person_req)
-	err := PersonGorm.UpdatePersonInDB(user_name, person_)
+func (p PersonsImplementation) ChangePerson(userName string, personReq model.PersonRequest) error {
+	personEntity := transformer.GetPersonEntity(personReq)
+	err := PersonGorm.UpdatePersonInDB(userName, personEntity)
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (p PersonsImplementation) DeletePerson(user_name string) error {
-	err := PersonGorm.DeletePersonFromDB(user_name)
+func (p PersonsImplementation) DeletePerson(userName string) error {
+	err := PersonGorm.DeletePersonFromDB(userName)
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (p PersonsImplementation) FetchPersonCreds(user_name string) (model.PersonAuthReq, error) {
-	user, err := PersonGorm.FetchPersonFromDB(user_name)
+func (p PersonsImplementation) FetchPersonCreds(userName string) (model.PersonAuthReq, error) {
+	user, err := PersonGorm.FetchPersonFromDB(userName)
 	userCreds := transformer.GetPersonAuthReq(user)
 	if err != nil {
 		return userCreds, err

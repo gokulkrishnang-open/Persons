@@ -27,19 +27,32 @@ func TestFindPerson(t *testing.T) {
 }
 
 func TestCreatePerson(t *testing.T) {
-	person_req := model.PersonRequest{
-		UserName: "username32",
+	personReq := model.PersonRequest{
+		UserName: "username28",
 		Password: "password",
 		Name:     "User 30",
 		Email:    "user30@gmail.com",
 		Phone:    1234567891,
 	}
-	err := PersonsImplementation{}.CreatePerson(person_req)
+	err := PersonsImplementation{}.CreatePerson(personReq)
+	assert.Empty(t, err)
+}
+
+func TestChangePerson(t *testing.T) {
+	userName := "username28"
+	personReq := model.PersonRequest{
+		UserName: "username28",
+		Password: "password",
+		Name:     "User 28",
+		Email:    "user30@gmail.com",
+		Phone:    1234567891,
+	}
+	err := PersonsImplementation{}.ChangePerson(userName, personReq)
 	assert.Empty(t, err)
 }
 
 func TestDeletePerson(t *testing.T) {
-	err := PersonsImplementation{}.DeletePerson("username32")
+	err := PersonsImplementation{}.DeletePerson("username28")
 	assert.Empty(t, err)
 }
 
