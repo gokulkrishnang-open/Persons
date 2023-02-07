@@ -25,7 +25,6 @@ func FindEveryoneHandler(ctx *gin.Context) {
 func FindPersonHandler(ctx *gin.Context) {
 	user_name, er := validator.ValidatePersonRequest(ctx)
 	if er != nil {
-		ctx.JSON(400, er)
 		return
 	}
 	resp, err := Person.FindPerson(user_name)

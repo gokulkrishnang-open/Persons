@@ -33,6 +33,17 @@ func TestFindPersonHandler(t *testing.T) {
 	c.Request, _ = http.NewRequest(http.MethodGet, "/user1", nil)
 	r.ServeHTTP(w, c.Request)
 	assert.Equal(t, 200, w.Code)
+
+	w = httptest.NewRecorder()
+	c.Request, _ = http.NewRequest(http.MethodGet, "/user1@)#&$", nil)
+	r.ServeHTTP(w, c.Request)
+	assert.Equal(t, 400, w.Code)
+
+	w = httptest.NewRecorder()
+	c.Request, _ = http.NewRequest(http.MethodGet, "/user130818", nil)
+	r.ServeHTTP(w, c.Request)
+	assert.Equal(t, 500, w.Code)
+
 }
 
 func TestCreatePersonHandler(t *testing.T) {
@@ -41,7 +52,20 @@ func TestCreatePersonHandler(t *testing.T) {
 	r.POST("/", CreatePersonHandler)
 	c.Request, _ = http.NewRequest(http.MethodPost, "/", bytes.NewBuffer([]byte(`
 	{
-		"User_name": "user596",
+		"User_name": "user596*&(#@#$#",
+		"Password": "password",
+		"Name": "User Doe",
+		"Email": "user@gmail.com",
+		"Phone": 1234567891
+	}
+	`)))
+	r.ServeHTTP(w, c.Request)
+	assert.Equal(t, 400, w.Code)
+
+	w = httptest.NewRecorder()
+	c.Request, _ = http.NewRequest(http.MethodPost, "/", bytes.NewBuffer([]byte(`
+	{
+		"User_name": "user516",
 		"Password": "password",
 		"Name": "User Doe",
 		"Email": "user@gmail.com",
@@ -50,17 +74,31 @@ func TestCreatePersonHandler(t *testing.T) {
 	`)))
 	r.ServeHTTP(w, c.Request)
 	assert.Equal(t, 200, w.Code)
+
+	w = httptest.NewRecorder()
+	c.Request, _ = http.NewRequest(http.MethodPost, "/", bytes.NewBuffer([]byte(`
+	{
+		"User_name": "user516",
+		"Password": "password",
+		"Name": "User Doe",
+		"Email": "user@gmail.com",
+		"Phone": 1234567891
+	}
+	`)))
+	r.ServeHTTP(w, c.Request)
+	assert.Equal(t, 500, w.Code)
+
 }
 
 func TestUpdatePersonHandler(t *testing.T) {
 	w := httptest.NewRecorder()
 	c, r := gin.CreateTestContext(w)
 	r.PUT("/:username", UpdatePersonHandler)
-	c.Request, _ = http.NewRequest(http.MethodPut, "/user596", bytes.NewBuffer([]byte(`
+	c.Request, _ = http.NewRequest(http.MethodPut, "/user516", bytes.NewBuffer([]byte(`
 	{
-		"User_name": "user596",
+		"User_name": "user516",
 		"Password": "password",
-		"Name": "User Name",
+		"Name": "User Name 516",
 		"Email": "user@gmail.com",
 		"Phone": 1234567891
 	}
@@ -73,7 +111,12 @@ func TestDeletePersonHandler(t *testing.T) {
 	w := httptest.NewRecorder()
 	c, r := gin.CreateTestContext(w)
 	r.DELETE("/:username", DeletePersonHandler)
-	c.Request, _ = http.NewRequest(http.MethodDelete, "/user535", nil)
+	c.Request, _ = http.NewRequest(http.MethodDelete, "/user516", nil)
 	r.ServeHTTP(w, c.Request)
 	assert.Equal(t, 200, w.Code)
+
+	w = httptest.NewRecorder()
+	c.Request, _ = http.NewRequest(http.MethodDelete, "/user535(*&$!&@", nil)
+	r.ServeHTTP(w, c.Request)
+	assert.Equal(t, 400, w.Code)
 }
