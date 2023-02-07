@@ -41,7 +41,7 @@ func TestCreatePersonHandler(t *testing.T) {
 	r.POST("/", CreatePersonHandler)
 	c.Request, _ = http.NewRequest(http.MethodPost, "/", bytes.NewBuffer([]byte(`
 	{
-		"User_name": "user50",
+		"User_name": "user596",
 		"Password": "password",
 		"Name": "User Doe",
 		"Email": "user@gmail.com",
@@ -55,10 +55,10 @@ func TestCreatePersonHandler(t *testing.T) {
 func TestChangePersonHandler(t *testing.T) {
 	w := httptest.NewRecorder()
 	c, r := gin.CreateTestContext(w)
-	r.POST("/", ChangePersonHandler)
-	c.Request, _ = http.NewRequest(http.MethodPost, "/", bytes.NewBuffer([]byte(`
+	r.PUT("/:username", ChangePersonHandler)
+	c.Request, _ = http.NewRequest(http.MethodPut, "/user596", bytes.NewBuffer([]byte(`
 	{
-		"User_name": "user50",
+		"User_name": "user596",
 		"Password": "password",
 		"Name": "User Name",
 		"Email": "user@gmail.com",
@@ -73,7 +73,7 @@ func TestDeletePersonHandler(t *testing.T) {
 	w := httptest.NewRecorder()
 	c, r := gin.CreateTestContext(w)
 	r.DELETE("/:username", DeletePersonHandler)
-	c.Request, _ = http.NewRequest(http.MethodDelete, "/user50", nil)
+	c.Request, _ = http.NewRequest(http.MethodDelete, "/user535", nil)
 	r.ServeHTTP(w, c.Request)
 	assert.Equal(t, 200, w.Code)
 }

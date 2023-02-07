@@ -9,7 +9,6 @@ import (
 )
 
 func LoadConfigs() {
-	// curr_path, _ := os.Getwd()
 	_, b, _, _ := runtime.Caller(0)
 
 	// Root folder of this project

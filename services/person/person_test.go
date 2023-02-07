@@ -24,11 +24,14 @@ func TestFindPerson(t *testing.T) {
 	resp, err := PersonsImplementation{}.FindPerson("user1")
 	assert.Empty(t, err)
 	assert.NotEmpty(t, resp)
+
+	resp, err = PersonsImplementation{}.FindPerson("user@#($")
+	assert.NotEmpty(t, err)
 }
 
 func TestCreatePerson(t *testing.T) {
 	personReq := model.PersonRequest{
-		UserName: "username28",
+		UserName: "username281",
 		Password: "password",
 		Name:     "User 30",
 		Email:    "user30@gmail.com",
@@ -39,9 +42,9 @@ func TestCreatePerson(t *testing.T) {
 }
 
 func TestChangePerson(t *testing.T) {
-	userName := "username28"
+	userName := "username281"
 	personReq := model.PersonRequest{
-		UserName: "username28",
+		UserName: "username281",
 		Password: "password",
 		Name:     "User 28",
 		Email:    "user30@gmail.com",
@@ -52,7 +55,7 @@ func TestChangePerson(t *testing.T) {
 }
 
 func TestDeletePerson(t *testing.T) {
-	err := PersonsImplementation{}.DeletePerson("username28")
+	err := PersonsImplementation{}.DeletePerson("username281")
 	assert.Empty(t, err)
 }
 
@@ -60,4 +63,7 @@ func TestFetchPersonCreds(t *testing.T) {
 	resp, err := PersonsImplementation{}.FetchPersonCreds("user1")
 	assert.Empty(t, err)
 	assert.NotEmpty(t, resp)
+
+	resp, err = PersonsImplementation{}.FetchPersonCreds("user@#$&&")
+	assert.NotEmpty(t, err)
 }

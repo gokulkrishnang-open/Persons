@@ -13,7 +13,6 @@ var DB *gorm.DB
 
 func Connection() {
 	fmt.Println("connecting to database")
-	// dsn := "host=localhost user=postgres password='' dbname=persons_api port=5432 sslmode=disable"
 	dsn := "host=" + config.Db.Host +
 		" user=" + config.Db.Username +
 		" password=''" + config.Db.Password +

@@ -49,7 +49,7 @@ func CreatePersonHandler(ctx *gin.Context) {
 	}
 }
 
-func ChangePersonHandler(ctx *gin.Context) {
+func UpdatePersonHandler(ctx *gin.Context) {
 	user_name, er := validator.ValidatePersonRequest(ctx)
 	if er != nil {
 		return

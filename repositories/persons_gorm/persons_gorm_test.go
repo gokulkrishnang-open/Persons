@@ -32,7 +32,7 @@ func TestFetchPersonFromDB(t *testing.T) {
 
 func TestInsertPersonIntoDB(t *testing.T) {
 	person := model.Persons{
-		UserName: "user27",
+		UserName: "user249",
 		Password: "password",
 		Name:     "User Name",
 		Email:    "user@gmail.com",
@@ -43,11 +43,11 @@ func TestInsertPersonIntoDB(t *testing.T) {
 }
 
 func TestUpdatePersonInDB(t *testing.T) {
-	userName := "user27"
+	userName := "user249"
 	person := model.Persons{
-		UserName: "user27",
+		UserName: "user249",
 		Password: "password",
-		Name:     "User Name27",
+		Name:     "User Name249",
 		Email:    "user@gmail.com",
 		Phone:    4921,
 	}
@@ -56,7 +56,7 @@ func TestUpdatePersonInDB(t *testing.T) {
 }
 
 func TestDeletePersonFromDB(t *testing.T) {
-	user := "user27"
+	user := "user249"
 	err := PersonGormImp{}.DeletePersonFromDB(user)
 	assert.Empty(t, err)
 }
