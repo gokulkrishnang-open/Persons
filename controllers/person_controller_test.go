@@ -52,10 +52,10 @@ func TestCreatePersonHandler(t *testing.T) {
 	assert.Equal(t, 200, w.Code)
 }
 
-func TestChangePersonHandler(t *testing.T) {
+func TestUpdatePersonHandler(t *testing.T) {
 	w := httptest.NewRecorder()
 	c, r := gin.CreateTestContext(w)
-	r.PUT("/:username", ChangePersonHandler)
+	r.PUT("/:username", UpdatePersonHandler)
 	c.Request, _ = http.NewRequest(http.MethodPut, "/user596", bytes.NewBuffer([]byte(`
 	{
 		"User_name": "user596",
