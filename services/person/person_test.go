@@ -41,7 +41,7 @@ func TestCreatePerson(t *testing.T) {
 	assert.Empty(t, err)
 }
 
-func TestChangePerson(t *testing.T) {
+func TestUpdatePerson(t *testing.T) {
 	userName := "username281"
 	personReq := model.PersonRequest{
 		UserName: "username281",
@@ -50,7 +50,7 @@ func TestChangePerson(t *testing.T) {
 		Email:    "user30@gmail.com",
 		Phone:    1234567891,
 	}
-	err := PersonsImplementation{}.ChangePerson(userName, personReq)
+	err := PersonsImplementation{}.UpdatePerson(userName, personReq)
 	assert.Empty(t, err)
 }
 

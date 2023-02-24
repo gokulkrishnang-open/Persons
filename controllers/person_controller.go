@@ -57,7 +57,7 @@ func UpdatePersonHandler(ctx *gin.Context) {
 	if err != nil {
 		return
 	}
-	err = Person.ChangePerson(user_name, person_req)
+	err = Person.UpdatePerson(user_name, person_req)
 	if err != nil {
 		ctx.JSON(400, err)
 		return

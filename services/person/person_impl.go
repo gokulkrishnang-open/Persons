@@ -39,7 +39,7 @@ func (p PersonsImplementation) CreatePerson(personReq model.PersonRequest) error
 	return nil
 }
 
-func (p PersonsImplementation) ChangePerson(userName string, personReq model.PersonRequest) error {
+func (p PersonsImplementation) UpdatePerson(userName string, personReq model.PersonRequest) error {
 	personEntity := transformer.GetPersonEntity(personReq)
 	err := PersonGorm.UpdatePersonInDB(userName, personEntity)
 	if err != nil {
